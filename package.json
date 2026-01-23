@@ -1,0 +1,23 @@
+{
+  "name": "prueba-tecnica-emin-nelson-arenas",
+  "version": "1.0.0",
+  "description": "Emin",
+  "homepage": "https://github.com/Nelson-Arenas/prueba-tecnica-emin-Nelson-Arenas#readme",
+  "bugs": {
+    "url": "https://github.com/Nelson-Arenas/prueba-tecnica-emin-Nelson-Arenas/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nelson-Arenas/prueba-tecnica-emin-Nelson-Arenas.git"
+  },
+  "license": "ISC",
+  "author": "Nelson Arenas",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
