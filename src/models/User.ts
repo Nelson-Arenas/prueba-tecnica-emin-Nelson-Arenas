@@ -5,7 +5,7 @@ interface IUser {
     lastName: string;
     email: string;
     password: string;
-    company: mongoose.Types.ObjectId;
+    company?: mongoose.Types.ObjectId;
 }
 
 const userSchema = new Schema({
@@ -13,7 +13,7 @@ const userSchema = new Schema({
     lastName: { type: String, required: true },
     email: { type: String, required: true, trim: true },
     password: { type: String, required: true, trim: true, select: true },
-    company: { type: Schema.Types.ObjectId, ref: 'Company', required: true  }
+    company: { type: Schema.Types.ObjectId, ref: 'Company', required: false }
 }, { timestamps: true });
 
 userSchema.index({ email: 1 }, { unique: true });

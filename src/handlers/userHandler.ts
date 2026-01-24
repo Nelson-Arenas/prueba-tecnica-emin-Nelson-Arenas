@@ -13,10 +13,6 @@ export const registerUser = async (req: Request, res: Response) => {
       return res.status(409).json({ message: 'El usuario ya existe' });
     }
 
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
 
     const hashedPassword = await hashPassword(req.body.password);
     await User.create({ ...req.body, password: hashedPassword });
@@ -35,10 +31,6 @@ export const registerUser = async (req: Request, res: Response) => {
 // hanndler para login de usuario
 export const loginUser = async (req: Request, res: Response) => {
   try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
 
     const userExists = await User.findOne({ email: req.body.email });
     if (!userExists) {
