@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import { registerUser } from './handlers';
-import { Activo } from './models/Activo';
+
 
 
 const router = Router();

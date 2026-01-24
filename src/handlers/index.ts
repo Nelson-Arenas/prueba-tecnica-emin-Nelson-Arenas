@@ -1,18 +1,23 @@
+import { Request, Response } from "express";
 import { User } from "../models/User";
+import { hashPassword } from "../utils/auth";
 
-export const registerUser = async (req, res) => {
+export const registerUser = async (req: Request, res: Response) => {
   try {
-    console.log(req.body);
-    
-    await User.create(req.body);
-    
+    const userExists = await User.findOne({ email: req.body.email });
+    if (userExists) {
+      return res.status(409).json({ message: 'El usuario ya existe' });
+    }
+
+    const hashedPassword = await hashPassword(req.body.password);
+    await User.create({ ...req.body, password: hashedPassword });
     res.status(201).json({ message: 'User registered successfully' });
-    } catch (error) {
-    console.error('Error al registrar usuario:', error);
+
+    
+  } catch (error) {
     res.status(500).json({ 
       message: 'Error al registrar el usuario', 
       error: error instanceof Error ? error.message : 'Error desconocido' 
     });
-    }
-
+  }
 }

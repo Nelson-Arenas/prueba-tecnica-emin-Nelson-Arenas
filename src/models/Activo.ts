@@ -10,14 +10,15 @@ interface IActivo {
   serialNumber: string;
   status: "DISPONIBLE" | "ASIGNADO" | "MANTENCION" | "BAJA";
   purchaseDate?: Date;
-  company: string;
+  company: mongoose.Types.ObjectId;
   location: string;
-  assignedTo?: string | null;
+  assignedUser: mongoose.Types.ObjectId | null;
+  
   notes?: string | null;
-  deletedAt?: Date | null;
+  deletedAt: Date | null;
 }
 
-const ActivoSchema = new Schema(
+const ActivoSchema = new Schema<IActivo>(
   {
     code: { type: String, required: true, unique: true, trim: true },   // ej: NB-001
     name: { type: String, required: true, trim: true },
@@ -33,10 +34,10 @@ const ActivoSchema = new Schema(
 
     purchaseDate: { type: Date },
 
-    company: { type: String, required: true, trim: true },
+    company: { type: Schema.Types.ObjectId, ref: "Company", required: true },
     location: { type: String, required: true, trim: true },
 
-    assignedTo: { type: String, default: null, trim: true },
+    assignedUser: { type: Schema.Types.ObjectId, ref: "User", default: null },
 
     notes: { type: String, default: null, trim: true },
 
@@ -49,5 +50,14 @@ const ActivoSchema = new Schema(
 ActivoSchema.index({ code: 1 }, { unique: true });
 ActivoSchema.index({ serialNumber: 1 }, { unique: true });
 ActivoSchema.index({ deletedAt: 1 });
+ActivoSchema.index({ company: 1, status: 1 });
+
+ActivoSchema.pre("validate", function () {
+  if (this.assignedUser) {
+    this.status = "ASIGNADO";
+  } else if (this.status === "ASIGNADO") {
+    this.status = "DISPONIBLE";
+  }
+});
 
 export const Activo = mongoose.model<IActivo>("Activo", ActivoSchema);
