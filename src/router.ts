@@ -1,11 +1,11 @@
 import {Router} from 'express';
+import { registerUser } from './handlers';
+import { Activo } from './models/Activo';
+
 
 const router = Router();
 
 
-router.post('/auth/register', (req, res) => {
-  console.log('User Registeration Endpoint Hit');
-
-});
+router.post('/auth/register', registerUser);
 
 export default router;
