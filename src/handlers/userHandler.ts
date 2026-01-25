@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { User } from "../models/User";
 import { checkPassword, hashPassword } from "../utils/auth";
+import { generateJWT } from "../utils/jwt";
 
 
 
@@ -44,7 +45,10 @@ export const loginUser = async (req: Request, res: Response) => {
     }
     console.log('Usuario encontrado:', userExists.password);
 
-    res.status(200).json({ message: 'Inicio de sesión exitoso' });
+    
+    const token = generateJWT({ id: userExists._id, email: userExists.email });
+    res.setHeader('Authorization', `Bearer ${token}`);
+    res.status(200).json({ message: 'Inicio de sesión exitoso', token });
 
 
     
