@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { validationResult } from "express-validator";
 import { User } from "../models/User";
 import { checkPassword, hashPassword } from "../utils/auth";
 import { generateJWT } from "../utils/jwt";
+import { authMiddleware } from "../middleware/auth";
 
 
 
@@ -58,4 +58,10 @@ export const loginUser = async (req: Request, res: Response) => {
       error: error instanceof Error ? error.message : 'Error desconocido' 
     });
   }
+};
+
+export const getUserProfile = async (req: Request, res: Response) => {
+  res.status(200).json({ user: req.user });
+
+  console.log('getUserProfile called');
 };

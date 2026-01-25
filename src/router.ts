@@ -1,8 +1,9 @@
 import {Router} from 'express';
-import { body } from 'express-validator';
-import { loginUser, registerUser } from './handlers/userHandler';
+import { body, header } from 'express-validator';
+import { getUserProfile, loginUser, registerUser } from './handlers/userHandler';
 import { registerCompany } from './handlers/empresaHandler';
 import { validateRequest } from './middleware/validation';
+import { authMiddleware } from './middleware/auth';
 
 
 const router = Router();
@@ -24,6 +25,12 @@ router.post('/auth/login',
     body('password').notEmpty().withMessage('La contraseña es obligatoria'),
     validateRequest,
     loginUser
+);
+
+router.get('/user/profile', 
+    validateRequest,
+    authMiddleware,
+    getUserProfile
 );
 
 
