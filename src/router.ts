@@ -1,11 +1,14 @@
 import {Router} from 'express';
 import { body } from 'express-validator';
 import { loginUser, registerUser } from './handlers/userHandler';
+import { registerCompany } from './handlers/empresaHandler';
 import { validateRequest } from './middleware/validation';
 
 
 const router = Router();
 
+
+//User routes
 router.post('/auth/register', 
     body('name').notEmpty().withMessage('El nombre es obligatorio'),
     body('lastName').notEmpty().withMessage('El apellido es obligatorio'),
@@ -21,6 +24,14 @@ router.post('/auth/login',
     body('password').notEmpty().withMessage('La contraseña es obligatoria'),
     validateRequest,
     loginUser
+);
+
+
+//Empresa routes 
+router.post('/empresas/register', 
+    body('name').notEmpty().withMessage('El nombre de la empresa es obligatorio'),
+    validateRequest,
+    registerCompany
 );
 
 export default router;
