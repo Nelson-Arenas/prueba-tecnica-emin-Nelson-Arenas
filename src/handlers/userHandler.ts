@@ -64,3 +64,16 @@ export const getUserProfile = async (req: Request, res: Response) => {
 
   console.log('getUserProfile called');
 };
+
+//Traer a todos los usuarios.
+export const getAllUsers = async (req: Request, res: Response) => {
+  try {
+    const users = await User.find().select('-password -__v -updatedAt');
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ 
+      message: 'Error al obtener los usuarios',
+      error: error instanceof Error ? error.message : 'Error desconocido'
+    });
+  }
+};

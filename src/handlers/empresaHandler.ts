@@ -23,3 +23,16 @@ export const registerCompany = async (req: Request, res: Response) => {
   }
 };
 
+export const getAllCompanies = async (req: Request, res: Response) => {
+  try {
+    const companies = await Company.find();
+    res.status(200).json(companies);
+  } catch (error) {
+    res.status(500).json({ 
+      message: 'Error al obtener las empresas', 
+      error: error instanceof Error ? error.message : 'Error desconocido' 
+    });
+  }
+};
+
+

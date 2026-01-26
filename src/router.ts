@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { body, header } from 'express-validator';
-import { getUserProfile, loginUser, registerUser } from './handlers/userHandler';
-import { registerCompany } from './handlers/empresaHandler';
+import { getUserProfile, loginUser, registerUser, getAllUsers } from './handlers/userHandler';
+import { getAllCompanies, registerCompany } from './handlers/empresaHandler';
 import { validateRequest } from './middleware/validation';
 import { authMiddleware } from './middleware/auth';
-import { registerActivo } from './handlers/activoHandler';
+import { registerActivo, getActivos } from './handlers/activoHandler';
 
 
 const router = Router();
@@ -34,12 +34,24 @@ router.get('/user/profile',
     getUserProfile
 );
 
+router.get('/user/all',
+    validateRequest,
+    authMiddleware,
+    getAllUsers
+);
+
 
 //Empresa routes 
 router.post('/empresas/register',
     body('name').notEmpty().withMessage('El nombre de la empresa es obligatorio'),
     validateRequest,
     registerCompany
+);
+
+router.get('/empresas/list',
+    validateRequest,
+    authMiddleware,
+    getAllCompanies
 );
 
 //Activos routes
@@ -65,6 +77,13 @@ router.post(
     validateRequest,
     authMiddleware,
     registerActivo
+);
+
+
+router.get("/activo/list",
+    validateRequest,
+    authMiddleware,
+    getActivos
 );
 
 
