@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { body, header } from 'express-validator';
+import { body, header, param } from 'express-validator';
 import { getUserProfile, loginUser, registerUser, getAllUsers } from './handlers/userHandler';
 import { getAllCompanies, registerCompany } from './handlers/empresaHandler';
 import { validateRequest } from './middleware/validation';
 import { authMiddleware } from './middleware/auth';
-import { registerActivo, getActivos } from './handlers/activoHandler';
+import { registerActivo, getActivos, getActivoById } from './handlers/activoHandler';
 
 
 const router = Router();
@@ -68,10 +68,7 @@ router.post(
     body("purchaseDate").optional({ nullable: true }).isISO8601().withMessage("purchaseDate debe ser una fecha ISO8601 (YYYY-MM-DD o ISO completo)").toDate(),
     body("company").notEmpty().withMessage("La empresa es obligatoria").isMongoId().withMessage("company debe ser un MongoId válido"),
     body("location").notEmpty().withMessage("La ubicación es obligatoria").isString().withMessage("La ubicación debe ser texto"),
-    body("assignedUser")
-        .optional({ nullable: true })
-        .custom((value) => value === null || Number.isInteger(value))
-        .withMessage("assignedUser debe ser un número entero o null"),
+    body("assignedUser").optional({ nullable: true }).isMongoId().withMessage("assignedUser debe ser un MongoId válido"),
 
     body("notes").optional({ nullable: true }).isString().withMessage("notes debe ser texto"),
     validateRequest,
@@ -84,6 +81,13 @@ router.get("/activo/list",
     validateRequest,
     authMiddleware,
     getActivos
+);
+
+router.post("/activo/find",
+    body('id').isMongoId().withMessage('El ID del activo no es válido'),
+    validateRequest,
+    authMiddleware,
+    getActivoById
 );
 
 

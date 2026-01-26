@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 const { Schema } = mongoose;
 
 interface IActivo {
@@ -10,9 +11,9 @@ interface IActivo {
   serialNumber: string;
   status: "DISPONIBLE" | "ASIGNADO" | "MANTENCION" | "BAJA";
   purchaseDate?: Date;
-  company: Number;
+  company: mongoose.Types.ObjectId;
   location: string;
-  assignedUser: Number | null;
+  assignedUser: mongoose.Types.ObjectId | null;
   
   notes?: string | null;
   deletedAt: Date | null;
@@ -37,7 +38,7 @@ const ActivoSchema = new Schema<IActivo>(
     company: { type: Schema.Types.ObjectId, ref: "Company", required: true },
     location: { type: String, required: true, trim: true },
 
-    assignedUser: { type: Number, ref: "User", default: null },
+    assignedUser: { type: Schema.Types.ObjectId, ref: "User", default: null },
 
     notes: { type: String, default: null, trim: true },
 

@@ -28,3 +28,33 @@ export const getActivos = async (req: Request, res: Response) => {
             });
     }
 };
+
+export const getActivoById = async (req: Request, res: Response) => {
+    try {
+        const activo = await Activo.findById(req.body.id);
+        if (!activo) {
+            return res.status(404).json({ message: 'Activo no encontrado' });
+        }
+        res.status(200).json(activo);
+    } catch (error) {
+        res.status(500).json({ 
+            message: 'Error al obtener el activo',
+            error: error instanceof Error ? error.message : 'Error desconocido'
+            });
+    }   
+};
+
+export const updateActivo = async (req: Request, res: Response) => {
+    try {
+        const activo = await Activo.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!activo) {
+            return res.status(404).json({ message: 'Activo no encontrado' });
+        }
+        res.status(200).json({ message: 'Activo actualizado exitosamente', activo });
+    } catch (error) {
+        res.status(500).json({ 
+            message: 'Error al actualizar el activo',
+            error: error instanceof Error ? error.message : 'Error desconocido'
+            });
+    }
+};
