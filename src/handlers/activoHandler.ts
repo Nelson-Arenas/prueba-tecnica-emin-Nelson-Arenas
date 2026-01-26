@@ -12,20 +12,40 @@ const escapeRegex = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"
 
 export const registerActivo = async (req: Request, res: Response) => {
   try {
-    const activoExists = await Activo.findOne({ serialNumber: req.body.serialNumber });
-    if (activoExists) {
-      return res.status(409).json({ message: "El activo ya existe" });
+    const { code, serialNumber } = req.body;
+
+    // Buscar duplicados específicos
+    const existingByCode = await Activo.findOne({ code });
+    if (existingByCode) {
+      return res.status(409).json({
+        message: "El código ya existe",
+        field: "code",
+      });
+    }
+
+    const existingBySerial = await Activo.findOne({ serialNumber });
+    if (existingBySerial) {
+      return res.status(409).json({
+        message: "El número de serie ya existe",
+        field: "serialNumber",
+      });
     }
 
     await Activo.create({ ...req.body });
-    return res.status(201).json({ message: "Activo registrado exitosamente" });
+
+    return res.status(201).json({
+      message: "Activo registrado exitosamente",
+    });
   } catch (error) {
+    console.error("[registerActivo] error:", error);
+
     return res.status(500).json({
       message: "Error al registrar el activo",
       error: error instanceof Error ? error.message : "Error desconocido",
     });
   }
 };
+
 
 /**
  * GET /activo/list

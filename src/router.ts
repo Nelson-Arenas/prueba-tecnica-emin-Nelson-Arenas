@@ -54,6 +54,7 @@ router.get('/empresas/list',
     getAllCompanies
 );
 
+
 //Activos routes
 router.post(
     "/activo/register",
