@@ -15,7 +15,7 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
   if (!token) {
-    return res.status(401).json({ message: 'Token no proporcionado' });
+    return res.status(401).json({ message: 'Error en la autenticación' });
   }
   try {
     const jwt = require('jsonwebtoken');

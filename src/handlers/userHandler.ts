@@ -45,8 +45,7 @@ export const loginUser = async (req: Request, res: Response) => {
     }
     console.log('Usuario encontrado:', userExists.password);
 
-    
-    const token = generateJWT({ id: userExists._id, email: userExists.email });
+    const token = generateJWT({ id: userExists._id, email: userExists.email, name: userExists.name , lastName: userExists.lastName});
     res.setHeader('Authorization', `Bearer ${token}`);
     res.status(200).json({ message: 'Inicio de sesión exitoso', token });
 
