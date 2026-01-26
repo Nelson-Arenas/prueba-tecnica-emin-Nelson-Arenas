@@ -13,6 +13,10 @@ Express-validator: Validación declarativa de requests con excelente integració
 CORS: Configurado para permitir integración con frontend en diferentes dominios.
 Justificación: Se eligió el stack MERN (sin React en este caso) por ser ampliamente conocido, tener excelente documentación, y permitir desarrollo rápido con TypeScript para mayor robustez.
 
+# . Instalar MongoDB compass para visualizar los datos
+https://www.mongodb.com/try/download/compass
+StringConnection: mongodb+srv://root:uZBcJp9pmBntJTEI@cluster0.lpxcbjf.mongodb.net/?appName=Cluster0
+
 
 # 1. Clonar el repositorio
 git clone https://github.com/Nelson-Arenas/prueba-tecnica-emin-Nelson-Arenas.git
