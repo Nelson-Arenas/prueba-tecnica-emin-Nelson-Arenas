@@ -4,7 +4,7 @@ import { getUserProfile, loginUser, registerUser, getAllUsers } from './handlers
 import { getAllCompanies, registerCompany } from './handlers/empresaHandler';
 import { validateRequest } from './middleware/validation';
 import { authMiddleware } from './middleware/auth';
-import { registerActivo, getActivos, getActivoById } from './handlers/activoHandler';
+import { registerActivo, getActivos, getActivoById, updateActivo, deleteActivo } from './handlers/activoHandler';
 
 
 const router = Router();
@@ -88,6 +88,23 @@ router.post("/activo/find",
     validateRequest,
     authMiddleware,
     getActivoById
+);
+
+router.put("/activo/update/:id",
+    param("id").isMongoId().withMessage("El ID del activo no es válido"),
+    header("Authorization").notEmpty().withMessage("El token de autenticación es obligatorio"),
+    validateRequest,
+    authMiddleware,
+    updateActivo
+);
+
+//soft delete de activo
+router.delete("/activo/delete/:id",
+    param("id").isMongoId().withMessage("El ID del activo no es válido"),
+    header("Authorization").notEmpty().withMessage("El token de autenticación es obligatorio"),
+    validateRequest,
+    authMiddleware,
+    deleteActivo
 );
 
 
