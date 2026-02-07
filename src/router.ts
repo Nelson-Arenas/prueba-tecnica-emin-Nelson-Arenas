@@ -70,6 +70,7 @@ router.post(
     body("company").notEmpty().withMessage("La empresa es obligatoria").isMongoId().withMessage("company debe ser un MongoId válido"),
     body("location").notEmpty().withMessage("La ubicación es obligatoria").isString().withMessage("La ubicación debe ser texto"),
     body("assignedUser").optional({ nullable: true }).isMongoId().withMessage("assignedUser debe ser un MongoId válido"),
+    body("priority").notEmpty().withMessage("La prioridad es obligatoria").isIn(['ALTA', 'MEDIA', 'BAJA']).withMessage("Prioridad inválida"),
 
     body("notes").optional({ nullable: true }).isString().withMessage("notes debe ser texto"),
     validateRequest,

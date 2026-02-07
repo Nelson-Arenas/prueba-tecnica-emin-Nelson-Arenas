@@ -17,6 +17,7 @@ interface IActivo {
   
   notes?: string | null;
   deletedAt: Date | null;
+  priority: 'ALTA' | 'MEDIA' | 'BAJA';
 }
 
 const ActivoSchema = new Schema<IActivo>(
@@ -44,6 +45,7 @@ const ActivoSchema = new Schema<IActivo>(
 
     // Soft delete
     deletedAt: { type: Date, default: null },
+    priority: { type: String, enum: ['ALTA', 'MEDIA', 'BAJA'], required: false },
   },
   { timestamps: true }
 );
