@@ -14,7 +14,7 @@
   "author": "Nelson Arenas",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"success!\" && exit 0",
+    "test": "echo \"success!\" && exit 1",
     "dev": "nodemon src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js"
